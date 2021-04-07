@@ -4,16 +4,22 @@
   This has red background
 </div>
 
-<form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate class="needs-validation">
   <div class="form-group">
     <label for="firstname">First Name </label>
     <input
       type="text"
       id="firstname"
       name="firstname"
-      class="form-control"
+      class="form-control" [ngClass]="validate('firstname')"
       formControlName="firstname"
     />
+  </div>
+  <div style="color:red;" *ngIf="firstname.errors?.required ">
+    First name is {{firstname.errors?.required?'required':''}}
+  </div>
+  <div style="color:red;" *ngIf="firstname.errors?.minlength">
+    Minimum length is of {{firstname.errors?.minlength?.requiredLength}} is required
   </div>
 
   <div class="form-group">
@@ -24,8 +30,14 @@
       name="lastname"
       class="form-control"
       formControlName="lastname"
+      [ngClass]="validate('lastname')"
+      required
     />
   </div>
+  <div style="color:red;" *ngIf="lastname.errors?.required && lastname.touched ">
+    Last name is {{lastname.errors?.required?'required':''}}
+  </div>
+
 
   <div class="form-group">
     <label for="email">Email </label>
